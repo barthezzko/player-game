@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface MessageBus {
 
-	void send(Message message, Player sender, Player recepient);
+	void send(Message message);
 
 	List<Message> getMessages();
 
