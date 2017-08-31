@@ -37,6 +37,8 @@ public class SocketClient {
 				logger.info("CLIENT:IN:" + line);
 				processLine(line);
 			}
+		} catch (IOException e) {
+			logger.warn(e);
 		} catch (Exception e) {
 			logger.error(e, e);
 		}
