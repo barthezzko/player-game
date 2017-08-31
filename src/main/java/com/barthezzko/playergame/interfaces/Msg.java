@@ -8,4 +8,5 @@ public interface Msg {
 	
 	String getReceiver();
 	
+	void reverseAndAppend(String augment);
 }

@@ -1,16 +1,15 @@
-package com.barthezzko.playergame.designed;
+package com.barthezzko.playergame.routers;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.barthezzko.playergame.interfaces.Bus;
 import com.barthezzko.playergame.interfaces.Listener;
 import com.barthezzko.playergame.interfaces.Msg;
-import com.barthezzko.playergame.interfaces.Publisher;
-import com.barthezzko.playergame.interfaces.Router;
 
-public class LoopBackRouterImpl implements Router, Publisher {
+public class LoopBackRouterImpl implements Bus {
 	
 	private Logger logger = Logger.getLogger(this.getClass());
 	private Map<String, Listener> listenerMap = new HashMap<>();
@@ -28,5 +27,10 @@ public class LoopBackRouterImpl implements Router, Publisher {
 		} else {
 			logger.info("Message dropped " + msg);
 		}
+	}
+
+	@Override
+	public void shutdown() {
+		
 	}
 }

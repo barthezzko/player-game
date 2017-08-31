@@ -23,8 +23,10 @@ public class NamedPlayer implements Listener {
 	@Override
 	public void onMessage(Msg msg) {
 		logger.info("[" + name +"] : " + msg);
-		if (++messageCounter < THRESHOLD){
-			publisher.publish(MsgImpl.reverse(msg, String.valueOf(messageCounter)));
+		if (active()){
+			msg.reverseAndAppend(String.valueOf(messageCounter));
+			messageCounter++;
+			publisher.publish(msg);
 		} else {
 			logger.info("[" + name +"] stopped sending back messages");
 		}
@@ -33,5 +35,10 @@ public class NamedPlayer implements Listener {
 
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public boolean active() {
+		return messageCounter < THRESHOLD;
 	}
 }

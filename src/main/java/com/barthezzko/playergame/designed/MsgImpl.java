@@ -4,28 +4,26 @@ import com.barthezzko.playergame.interfaces.Msg;
 
 public class MsgImpl implements Msg {
 
-		private String payload;
+		private StringBuilder payload; 
 		private String sender;
 		private String receiver;
 
-		private MsgImpl() {
+		public MsgImpl(String message, String receiver, String sender) {
+			this.payload = new StringBuilder(message);
+			this.sender = sender;
+			this.receiver = receiver;
 		}
 
-		public static Msg of(String payload, String receiver, String sender) {
-			MsgImpl msg = new MsgImpl();
-			msg.payload = payload;
-			msg.sender = sender;
-			msg.receiver = receiver;
-			return msg;
-		}
-
-		public static Msg reverse(Msg msg, String augment) {
-			return of(msg.getPayload() + augment, msg.getSender(), msg.getReceiver());
+		public void reverseAndAppend(String augment) {
+			payload.append(augment);
+			String temp = sender;
+			sender = receiver;
+			receiver = temp;
 		}
 
 		@Override
 		public String getPayload() {
-			return payload;
+			return payload.toString();
 		}
 
 		@Override
@@ -40,6 +38,6 @@ public class MsgImpl implements Msg {
 
 		@Override
 		public String toString() {
-			return "MsgImpl [payload=" + payload + ", sender=" + sender + ", receiver=" + receiver + "]";
+			return "MsgImpl [payload=" + payload.toString() + ", sender=" + sender + ", receiver=" + receiver + "]";
 		}
 	}
