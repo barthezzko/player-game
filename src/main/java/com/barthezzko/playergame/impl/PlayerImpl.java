@@ -24,17 +24,13 @@ public class PlayerImpl implements Player {
 			logger.info("Game finished by player [" + playerID + "]: reached threshold of " + THRESHOLD + " messages");
 			return;
 		}
-		logger.info("Player [" + playerID + "] received from [" + message.getSender().getPlayerID() + "] : [" + message.getPayload() + "]");
+		logger.info("Player [" + playerID + "] received from [" + message.getSender() + "] : [" + message + "]");
 		mBus.send(new MessageImpl(message.getPayload() + counter, this, message.getSender()));
 	}
 
 	@Override
 	public String toString() {
-		return "PlayerImpl [playerID=" + playerID + "]";
+		return "PlayerImpl[" + playerID + "]";
 	}
 
-	@Override
-	public int getPlayerID() {
-		return playerID;
-	}
 }

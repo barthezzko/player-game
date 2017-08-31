@@ -25,7 +25,7 @@ public final class MessageImpl implements Message {
 
 	@Override
 	public String toString() {
-		return "MessageImpl [payload=" + payload + "]";
+		return "MessageImpl [" + sender + " -> " + recepient + ", payload=" + payload + "]";
 	}
 
 	@Override

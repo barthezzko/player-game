@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.barthezzko.playergame.model.Message;
 import com.barthezzko.playergame.model.MessageBus;
+import com.barthezzko.playergame.model.Player;
 
 public class MessageBusImpl implements MessageBus {
 
@@ -20,6 +21,11 @@ public class MessageBusImpl implements MessageBus {
 	@Override
 	public List<Message> getMessages() {
 		return Collections.unmodifiableList(messagesHistory);
+	}
+
+	@Override
+	public void register(Player recepient) {
+		
 	}
 
 }
