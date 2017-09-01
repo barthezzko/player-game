@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import com.barthezzko.playergame.model.Message;
 import com.barthezzko.playergame.model.PlayGround;
-import com.barthezzko.playergame.singlethread.PlayGroundImpl;
 
 public class SingleThreadedGameTests {
 
@@ -17,7 +16,7 @@ public class SingleThreadedGameTests {
 
 	@Before
 	public void before() {
-		playGround = new PlayGroundImpl();
+		//playGround = new PlayGroundImpl();
 	}
 
 	@Test
