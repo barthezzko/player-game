@@ -34,11 +34,11 @@ public class ServerSocketBusImpl implements Bus {
 			logger.info("Server initialized");
 			while ((inputLine = in.readLine()) != null) {
 				logger.info("SERVER:IN:" + inputLine);
-				if ("EXIT".equals(inputLine)) {
-					break;
-				}
 				Msg msg = SocketUtils.unmarshall(inputLine);
 				Listener listener = listenerMap.get(msg.getReceiver());
+				if (!listener.active()){
+					return;
+				}
 				if (listener != null) {
 					logger.info("Received from another JVM:" + msg);
 					listener.onMessage(msg);
