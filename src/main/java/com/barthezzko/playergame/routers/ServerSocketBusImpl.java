@@ -1,6 +1,7 @@
 package com.barthezzko.playergame.routers;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -10,7 +11,6 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.barthezzko.playergame.designed.NamedPlayer;
 import com.barthezzko.playergame.interfaces.Bus;
 import com.barthezzko.playergame.interfaces.Listener;
 import com.barthezzko.playergame.interfaces.Msg;
@@ -21,33 +21,39 @@ public class ServerSocketBusImpl implements Bus {
 	private Logger logger = Logger.getLogger(this.getClass());
 	private Map<String, Listener> listenerMap = new HashMap<>();
 	private PrintWriter out;
+	private BufferedReader in;
 
-	public ServerSocketBusImpl(String name) {
-		listenerMap.put(name, new NamedPlayer(this, name));
+	public ServerSocketBusImpl() {
 		try {
 			ServerSocket serverSocket = new ServerSocket(9999);
 			Socket clientSocket = serverSocket.accept();
 			out = new PrintWriter(clientSocket.getOutputStream(), true);
-			BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+		} catch (Exception e) {
+			logger.error(e);
+		}
+	}
 
-			String inputLine;
-			logger.info("Server initialized");
+	public void listen() {
+		String inputLine;
+		logger.info("Server initialized");
+		try {
 			while ((inputLine = in.readLine()) != null) {
 				logger.info("SERVER:IN:" + inputLine);
 				Msg msg = SocketUtils.unmarshall(inputLine);
 				Listener listener = listenerMap.get(msg.getReceiver());
-				if (!listener.active()){
+				if (!listener.active()) {
 					return;
 				}
 				if (listener != null) {
 					logger.info("Received from another JVM:" + msg);
 					listener.onMessage(msg);
 				} else {
-					logger.info("No listener for key :" + msg.getReceiver());	
+					logger.info("No listener for key :" + msg.getReceiver());
 				}
 			}
-		} catch (Exception e) {
-			logger.error(e);
+		} catch (IOException e) {
+			logger.error(e, e);
 		}
 	}
 

@@ -13,7 +13,6 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.barthezzko.playergame.designed.NamedPlayer;
 import com.barthezzko.playergame.interfaces.Bus;
 import com.barthezzko.playergame.interfaces.Listener;
 import com.barthezzko.playergame.interfaces.Msg;
@@ -27,8 +26,7 @@ public class ClientSocketBusImpl implements Bus {
 	private BufferedReader in;
 	private Socket socket;
 
-	public ClientSocketBusImpl(String name) {
-		listenerMap.put(name, new NamedPlayer(this, name));
+	public ClientSocketBusImpl() {
 		try {
 			SocketAddress socketAddress = new InetSocketAddress(InetAddress.getByName("localhost"), 9999);
 			socket = new Socket();
@@ -36,27 +34,28 @@ public class ClientSocketBusImpl implements Bus {
 
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new PrintStream(socket.getOutputStream(), true);
+		} catch (IOException e) {
+			logger.warn(e);
+		} catch (Exception e) {
+			logger.error(e, e);
+		}
+	}
 
-			String line;
-
-			/*logger.info("sending...");
-			logger.info("sent. waiting for messages");*/
-			
-			send("irina:mike:qwerty");
+	public void listen() {
+		String line;
+		try {
 			while ((line = in.readLine()) != null) {
 				logger.info("CLIENT:IN:" + line);
 				Msg msg = SocketUtils.unmarshall(line);
 				Listener listener = listenerMap.get(msg.getReceiver());
 				if (listener != null) {
-					logger.info("Send to same JVM:" + msg);
+					logger.info("Found listener for key:" + msg);
 					listener.onMessage(msg);
 				} else {
 					logger.info("No listener for key:" + msg.getReceiver());
 				}
 			}
 		} catch (IOException e) {
-			logger.warn(e);
-		} catch (Exception e) {
 			logger.error(e, e);
 		}
 	}
