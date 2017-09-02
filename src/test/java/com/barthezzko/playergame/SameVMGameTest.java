@@ -15,6 +15,7 @@ import org.junit.runners.Parameterized.Parameters;
 import com.barthezzko.playergame.busimpl.LoopBackBusImpl;
 import com.barthezzko.playergame.busimpl.ThreadsBusImpl;
 import com.barthezzko.playergame.impl.GameRun;
+import com.barthezzko.playergame.impl.MessageImpl;
 import com.barthezzko.playergame.impl.NamedPlayer;
 import com.barthezzko.playergame.model.Bus;
 import com.barthezzko.playergame.model.Listener;
@@ -42,12 +43,14 @@ public class SameVMGameTest extends TestBase {
 	@Test
 	public void testStandardScenario() {
 		if (bus instanceof ThreadsBusImpl) {
+			Thread.yield();
 			logger.info("Waiting for run to finish threads interaction...");
 			while(((ThreadsBusImpl)bus).isWorking()){
-				logger.info("yielding...");
-				Thread.yield();
+				logger.info("sleeping...");
+				sleep(10);
 			}
 		}
+		
 		assertEquals("initial00112233445566778899", bus.lastMessageFor("mike"));
 		Listener listener = bus.getListener("mike");
 		assertEquals(false, listener.isActive());
