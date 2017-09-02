@@ -10,7 +10,7 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.apache.log4j.Logger;
 
@@ -23,7 +23,7 @@ public class ClientSocketAPI implements SocketAPI {
 	private BufferedReader reader;
 	private Logger logger = Logger.getLogger(ClientSocketAPI.class);
 
-	public ClientSocketAPI(int socketPort, Consumer<String> lineConsumer) {
+	public ClientSocketAPI(int socketPort, Function<String, Boolean> lineConsumer) {
 		try {
 			SocketAddress socketAddress = new InetSocketAddress(InetAddress.getByName(LOCALHOST), socketPort);
 			socket = new Socket();
@@ -40,7 +40,7 @@ public class ClientSocketAPI implements SocketAPI {
 						if (logger.isDebugEnabled()){
 							logger.debug("CLIENT:IN:" + line);
 						}
-						lineConsumer.accept(line);
+						lineConsumer.apply(line);
 					}
 				} catch (IOException e) {
 					logger.warn(e.getMessage());

@@ -36,7 +36,7 @@ public class ServerSocketAPI implements SocketAPI {
 						if (logger.isDebugEnabled()) {
 							logger.debug("SERVER:IN: [" + inputLine + "]");
 						}
-						if (lineProcessor.apply(inputLine)) {
+						if (lineProcessor.apply(inputLine)) { //condition of stopping the thread
 							return;
 						}
 					}

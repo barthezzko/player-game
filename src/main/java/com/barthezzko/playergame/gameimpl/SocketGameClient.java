@@ -5,10 +5,11 @@ import static com.barthezzko.playergame.impl.GameRun.MIKE;
 
 import org.apache.log4j.Logger;
 
-import com.barthezzko.playergame.busimpl.ClientSocketBusImpl;
+import com.barthezzko.playergame.busimpl.SocketBusImpl;
 import com.barthezzko.playergame.impl.MessageImpl;
 import com.barthezzko.playergame.impl.NamedPlayer;
 import com.barthezzko.playergame.misc.PlayerGameException;
+import com.barthezzko.playergame.model.Bus;
 
 public class SocketGameClient {
 
@@ -20,14 +21,14 @@ public class SocketGameClient {
 		}
 		int port = Integer.valueOf(args[0]);
 		logger.info("Starting client application on port [" + port + "]");
-		ClientSocketBusImpl bus = new ClientSocketBusImpl(port);
-		
+		Bus bus = new SocketBusImpl(port, SocketBusImpl.Mode.SERVER);
+
 		logger.info("Client bus created. Registering player...");
 		bus.register(MIKE, new NamedPlayer(bus, "Mikhail Baytsurov"));
-		
+
 		logger.info("Player registered, publishing message...");
 		bus.publish(new MessageImpl.Builder().payload("initial").sender(MIKE).receiver(IRINA).build());
-		
+
 		bus.shutdown();
 	}
 

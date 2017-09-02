@@ -4,9 +4,10 @@ import static com.barthezzko.playergame.impl.GameRun.IRINA;
 
 import org.apache.log4j.Logger;
 
-import com.barthezzko.playergame.busimpl.ServerSocketBusImpl;
+import com.barthezzko.playergame.busimpl.SocketBusImpl;
 import com.barthezzko.playergame.impl.NamedPlayer;
 import com.barthezzko.playergame.misc.PlayerGameException;
+import com.barthezzko.playergame.model.Bus;
 
 public class SocketGameServer {
 
@@ -19,7 +20,7 @@ public class SocketGameServer {
 		int port = Integer.valueOf(args[0]);
 		
 		logger.info("Starting server application on port [" + port + "]");
-		ServerSocketBusImpl bus = new ServerSocketBusImpl(port);
+		Bus bus = new SocketBusImpl(port, SocketBusImpl.Mode.SERVER);
 		
 		logger.info("Client bus started. Creating player...");
 		bus.register(IRINA, new NamedPlayer(bus, "Irina Plaksina"));

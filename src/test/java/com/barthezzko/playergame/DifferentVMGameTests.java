@@ -16,15 +16,16 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.barthezzko.playergame.busimpl.ClientSocketBusImpl;
+import com.barthezzko.playergame.busimpl.SocketBusImpl;
 import com.barthezzko.playergame.gameimpl.SocketGameServer;
 import com.barthezzko.playergame.impl.MessageImpl;
 import com.barthezzko.playergame.impl.NamedPlayer;
+import com.barthezzko.playergame.model.Bus;
 
 public class DifferentVMGameTests extends TestBase {
 
 	private Process process;
-	private ClientSocketBusImpl bus;
+	private Bus bus;
 	private static final int SOCKET_PORT = 9090; // let's set to other, not the
 													// one mentioned in runner
 													// class to avoid busy port
@@ -46,7 +47,7 @@ public class DifferentVMGameTests extends TestBase {
 
 	@Test
 	public void testClientReceived() throws InterruptedException {
-		bus = new ClientSocketBusImpl(SOCKET_PORT);
+		bus = new SocketBusImpl(SOCKET_PORT, SocketBusImpl.Mode.CLIENT);
 		NamedPlayer player = new NamedPlayer(bus, "Mikhail Baytsurov");
 		logger.info("creating client");
 		bus.register(MIKE, player);
