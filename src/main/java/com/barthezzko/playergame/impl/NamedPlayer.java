@@ -41,4 +41,9 @@ public class NamedPlayer implements Listener {
 	public boolean active() {
 		return messageCounter < THRESHOLD;
 	}
+
+	
+	public int messageCount() {
+		return messageCounter;
+	}
 }

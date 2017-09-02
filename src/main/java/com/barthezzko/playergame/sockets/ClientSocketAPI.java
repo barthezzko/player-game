@@ -37,7 +37,9 @@ public class ClientSocketAPI implements SocketAPI {
 				String line;
 				try {
 					while ((line = reader.readLine()) != null) {
-						logger.debug("CLIENT:IN:" + line);
+						if (logger.isDebugEnabled()){
+							logger.debug("CLIENT:IN:" + line);
+						}
 						lineConsumer.accept(line);
 					}
 				} catch (IOException e) {

@@ -33,7 +33,9 @@ public class ServerSocketAPI implements SocketAPI {
 				String inputLine;
 				try {
 					while ((inputLine = reader.readLine()) != null) {
-						logger.debug("SERVER:IN: [" + inputLine + "]");
+						if (logger.isDebugEnabled()) {
+							logger.debug("SERVER:IN: [" + inputLine + "]");
+						}
 						if (lineProcessor.apply(inputLine)) {
 							return;
 						}

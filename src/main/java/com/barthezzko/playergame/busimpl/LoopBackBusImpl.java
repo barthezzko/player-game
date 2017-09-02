@@ -1,29 +1,19 @@
 package com.barthezzko.playergame.busimpl;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.log4j.Logger;
-
-import com.barthezzko.playergame.model.Bus;
 import com.barthezzko.playergame.model.Listener;
-import com.barthezzko.playergame.model.MessageStorage;
 import com.barthezzko.playergame.model.Message;
 
-public class LoopBackBusImpl extends MessageStorage implements Bus {
-
-	private Logger logger = Logger.getLogger(this.getClass());
-	private Map<String, Listener> listenerMap = new HashMap<>();
+public class LoopBackBusImpl extends BusBase {
 
 	@Override
 	public void register(String msgKey, Listener listener) {
-		listenerMap.put(msgKey, listener);
+		addListener(msgKey, listener);
 	}
 
 	@Override
 	public void publish(Message msg) {
-		Listener listener = listenerMap.get(msg.getReceiver());
-		storeMessage(msg);
+		Listener listener = getListener(msg.getReceiver());
+		addMessage(msg);
 		if (listener != null) {
 			listener.onMessage(msg);
 		} else {

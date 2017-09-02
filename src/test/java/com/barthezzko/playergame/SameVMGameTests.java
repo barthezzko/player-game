@@ -1,6 +1,7 @@
 package com.barthezzko.playergame;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -14,7 +15,9 @@ import org.junit.runners.Parameterized.Parameters;
 import com.barthezzko.playergame.busimpl.LoopBackBusImpl;
 import com.barthezzko.playergame.busimpl.ThreadsBusImpl;
 import com.barthezzko.playergame.impl.GameRun;
+import com.barthezzko.playergame.impl.NamedPlayer;
 import com.barthezzko.playergame.model.Bus;
+import com.barthezzko.playergame.model.Listener;
 
 @RunWith(Parameterized.class)
 public class SameVMGameTests extends TestBase {
@@ -40,13 +43,13 @@ public class SameVMGameTests extends TestBase {
 	public void testStandardScenario() {
 		if (bus instanceof ThreadsBusImpl) {
 			logger.info("Waiting for run to finish threads interaction...");
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				logger.error(e);
-			}
+			sleep(1000);
 		}
 		assertEquals("initial00112233445566778899", bus.lastMessageFor("mike"));
+		Listener listener = bus.getListener("mike");
+		assertEquals(false, listener.active());
+		assertTrue(listener instanceof NamedPlayer);
+		assertEquals(10, ((NamedPlayer) listener).messageCount());
 	}
 
 }

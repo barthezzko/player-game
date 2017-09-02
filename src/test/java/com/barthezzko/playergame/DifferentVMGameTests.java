@@ -2,7 +2,7 @@ package com.barthezzko.playergame;
 
 import static com.barthezzko.playergame.impl.GameRun.IRINA;
 import static com.barthezzko.playergame.impl.GameRun.MIKE;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +17,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.barthezzko.playergame.busimpl.ClientSocketBusImpl;
-import com.barthezzko.playergame.gameimpl.SocketGameClient;
 import com.barthezzko.playergame.gameimpl.SocketGameServer;
 import com.barthezzko.playergame.impl.MessageImpl;
 import com.barthezzko.playergame.impl.NamedPlayer;
@@ -26,16 +25,16 @@ public class DifferentVMGameTests extends TestBase {
 
 	private Process process;
 	private ClientSocketBusImpl bus;
+	private static final int SOCKET_PORT = 9090; // let's set to other, not the
+													// one mentioned in runner
+													// class to avoid busy port
+													// problem
 
 	@Before
 	public void before() throws InterruptedException {
 		runServerProcess();
-		sleep(2000); // waiting till the server process starts, can't use Latch
+		sleep(2_000); // waiting till the server process starts, can't use Latch
 						// here - that's another process
-		bus = new ClientSocketBusImpl();
-		bus.register(MIKE, new NamedPlayer(bus, "Mikhail Baytsurov"));
-		bus.publish(new MessageImpl.Builder().payload("initial").sender(MIKE).receiver(IRINA).build());
-		bus.shutdown();
 	}
 
 	@After
@@ -47,10 +46,16 @@ public class DifferentVMGameTests extends TestBase {
 
 	@Test
 	public void testClientReceived() throws InterruptedException {
+		bus = new ClientSocketBusImpl(SOCKET_PORT);
+		NamedPlayer player = new NamedPlayer(bus, "Mikhail Baytsurov");
 		logger.info("creating client");
-		SocketGameClient.main(null);
-		sleep(2000); // waiting till the processes are communicating
+		bus.register(MIKE, player);
+		bus.publish(new MessageImpl.Builder().payload("initial").sender(MIKE).receiver(IRINA).build());
+		bus.shutdown();
+		sleep(2_000); // waiting till the processes are communicating
 		assertEquals("initial0011223344556677889", bus.lastMessageFor(MIKE));
+		assertEquals(false, player.active());
+		assertEquals(10, player.messageCount());
 	}
 
 	private void runServerProcess() {
@@ -59,8 +64,8 @@ public class DifferentVMGameTests extends TestBase {
 		try {
 			String JAVA_HOME_BIN = System.getProperty("java.home") + "/bin/java";
 			process = new ProcessBuilder(JAVA_HOME_BIN, "-classpath", classpath,
-					SocketGameServer.class.getCanonicalName()).inheritIO().start();
-			logger.info("Started server");
+					SocketGameServer.class.getCanonicalName(), String.valueOf(SOCKET_PORT)).inheritIO().start();
+			logger.info("Started server at port [" + SOCKET_PORT + "]");
 			Executors.newSingleThreadExecutor().submit(() -> {
 				logger.info("process stopped with exitCode " + process.exitValue());
 			});

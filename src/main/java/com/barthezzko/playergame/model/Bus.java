@@ -10,4 +10,6 @@ public interface Bus extends Publisher, Router {
 	String lastMessageFor(String receiver);
 
 	List<String> getMessagesFor(String receiver);
+	
+	Listener getListener(String key);
 }
