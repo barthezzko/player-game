@@ -20,7 +20,7 @@ import com.barthezzko.playergame.model.Message;
  */
 public class ThreadsBusImpl extends BusBase {
 
-	private final ExecutorService executorService = Executors.newFixedThreadPool(10);
+	private final ExecutorService executorService = Executors.newFixedThreadPool(2);
 	private volatile Map<String, Object> lockMap = new ConcurrentHashMap<>();
 	private volatile Message currentMsg;
 

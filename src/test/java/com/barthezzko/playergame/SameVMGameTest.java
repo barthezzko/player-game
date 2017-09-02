@@ -20,11 +20,11 @@ import com.barthezzko.playergame.model.Bus;
 import com.barthezzko.playergame.model.Listener;
 
 @RunWith(Parameterized.class)
-public class SameVMGameTests extends TestBase {
+public class SameVMGameTest extends TestBase {
 
 	private Bus bus;
 
-	public SameVMGameTests(String name, Bus bus) {
+	public SameVMGameTest(String name, Bus bus) {
 		this.bus = bus;
 	}
 
@@ -43,7 +43,7 @@ public class SameVMGameTests extends TestBase {
 	public void testStandardScenario() {
 		if (bus instanceof ThreadsBusImpl) {
 			logger.info("Waiting for run to finish threads interaction...");
-			sleep(1000);
+			sleep(3000);
 		}
 		assertEquals("initial00112233445566778899", bus.lastMessageFor("mike"));
 		Listener listener = bus.getListener("mike");

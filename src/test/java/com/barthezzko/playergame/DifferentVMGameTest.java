@@ -22,7 +22,7 @@ import com.barthezzko.playergame.impl.MessageImpl;
 import com.barthezzko.playergame.impl.NamedPlayer;
 import com.barthezzko.playergame.model.Bus;
 
-public class DifferentVMGameTests extends TestBase {
+public class DifferentVMGameTest extends TestBase {
 
 	private Process process;
 	private Bus bus;
