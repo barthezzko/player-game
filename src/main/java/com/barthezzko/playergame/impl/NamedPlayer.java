@@ -1,5 +1,7 @@
 package com.barthezzko.playergame.impl;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.apache.log4j.Logger;
 
 import com.barthezzko.playergame.model.Listener;
@@ -10,7 +12,7 @@ public class NamedPlayer implements Listener {
 
 	private final String name;
 	private final Publisher publisher;
-	private int messageCounter;
+	private AtomicInteger messageCounter = new AtomicInteger(0);
 	private static final int THRESHOLD = 10;
 	private Logger logger = Logger.getLogger(NamedPlayer.class);
 	
@@ -22,10 +24,9 @@ public class NamedPlayer implements Listener {
 
 	@Override
 	public void onMessage(Message msg) {
-		logger.info("[" + name +"] : " + msg);
 		if (isActive()){
-			Message reversed = msg.reverseAndAppend(String.valueOf(messageCounter));
-			messageCounter++;
+			Message reversed = msg.reverseAndAppend(String.valueOf(messageCounter.getAndIncrement()));
+			logger.info("[" + name +"] : " + msg + ", received: " + messageCount());
 			publisher.publish(reversed);
 		} else {
 			logger.info("[" + name +"] stopped sending back messages");
@@ -39,11 +40,11 @@ public class NamedPlayer implements Listener {
 
 	@Override
 	public boolean isActive() {
-		return messageCounter < THRESHOLD;
+		return messageCounter.get() < THRESHOLD;
 	}
 
 	
 	public int messageCount() {
-		return messageCounter;
+		return messageCounter.get();
 	}
 }

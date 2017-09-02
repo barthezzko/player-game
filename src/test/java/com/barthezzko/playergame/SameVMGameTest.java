@@ -43,7 +43,10 @@ public class SameVMGameTest extends TestBase {
 	public void testStandardScenario() {
 		if (bus instanceof ThreadsBusImpl) {
 			logger.info("Waiting for run to finish threads interaction...");
-			sleep(3000);
+			while(((ThreadsBusImpl)bus).isWorking()){
+				logger.info("yielding...");
+				Thread.yield();
+			}
 		}
 		assertEquals("initial00112233445566778899", bus.lastMessageFor("mike"));
 		Listener listener = bus.getListener("mike");

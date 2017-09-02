@@ -21,18 +21,18 @@ import com.barthezzko.playergame.model.Message;
 public class ThreadsBusImpl extends BusBase {
 
 	private final ExecutorService executorService = Executors.newFixedThreadPool(2);
-	private volatile Map<String, Object> lockMap = new ConcurrentHashMap<>();
+	private volatile Map<String, Object> lockMap = new ConcurrentHashMap<>(); //I use a separate map of locks 
 	private volatile Message currentMsg;
-
+	
 	@Override
 	public void publish(Message msg) {
-		addMessage(msg);
 		if (logger.isDebugEnabled()) {
 			logger.debug("PUB:" + msg);
 		}
-		currentMsg = msg;
 		Object lockObject = lockMap.get(msg.getReceiver());
 		synchronized (lockObject) {
+			addMessage(msg);
+			currentMsg = msg;
 			lockObject.notify();
 		}
 	}
@@ -55,10 +55,15 @@ public class ThreadsBusImpl extends BusBase {
 				}
 			}
 		});
+		Thread.yield();
 	}
 
 	@Override
 	public void shutdown() {
 		executorService.shutdown();
+	}
+	
+	public boolean isWorking(){
+		return !executorService.isTerminated();
 	}
 }
