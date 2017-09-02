@@ -2,7 +2,7 @@ package com.barthezzko.playergame.designed;
 
 import org.apache.log4j.Logger;
 
-import com.barthezzko.playergame.interfaces.Bus;
+import com.barthezzko.playergame.model.Bus;
 
 public class Game {
 

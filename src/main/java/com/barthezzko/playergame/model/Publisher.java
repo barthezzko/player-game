@@ -1,4 +1,4 @@
-package com.barthezzko.playergame.interfaces;
+package com.barthezzko.playergame.model;
 
 public interface Publisher {
 	

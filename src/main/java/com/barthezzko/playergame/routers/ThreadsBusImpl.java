@@ -7,11 +7,12 @@ import java.util.concurrent.Executors;
 
 import org.apache.log4j.Logger;
 
-import com.barthezzko.playergame.interfaces.Bus;
-import com.barthezzko.playergame.interfaces.Listener;
-import com.barthezzko.playergame.interfaces.Msg;
+import com.barthezzko.playergame.model.Bus;
+import com.barthezzko.playergame.model.Listener;
+import com.barthezzko.playergame.model.MessageStorage;
+import com.barthezzko.playergame.model.Msg;
 
-public class ThreadsBusImpl implements Bus {
+public class ThreadsBusImpl extends MessageStorage implements Bus {
 
 	private final ExecutorService executorService = Executors.newFixedThreadPool(10);
 	private volatile Map<String, Object> lockMap = new ConcurrentHashMap<>();
@@ -20,6 +21,7 @@ public class ThreadsBusImpl implements Bus {
 
 	@Override
 	public void publish(Msg msg) {
+		storeMessage(msg);
 		logger.debug("PUB:" + msg);
 		currentMsg = msg;
 		Object lockObject = lockMap.get(msg.getReceiver());

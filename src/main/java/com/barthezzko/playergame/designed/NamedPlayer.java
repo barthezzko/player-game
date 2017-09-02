@@ -2,9 +2,9 @@ package com.barthezzko.playergame.designed;
 
 import org.apache.log4j.Logger;
 
-import com.barthezzko.playergame.interfaces.Listener;
-import com.barthezzko.playergame.interfaces.Msg;
-import com.barthezzko.playergame.interfaces.Publisher;
+import com.barthezzko.playergame.model.Listener;
+import com.barthezzko.playergame.model.Msg;
+import com.barthezzko.playergame.model.Publisher;
 
 public class NamedPlayer implements Listener {
 

@@ -5,14 +5,15 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.barthezzko.playergame.interfaces.Bus;
-import com.barthezzko.playergame.interfaces.Listener;
-import com.barthezzko.playergame.interfaces.Msg;
+import com.barthezzko.playergame.model.Bus;
+import com.barthezzko.playergame.model.Listener;
+import com.barthezzko.playergame.model.MessageStorage;
+import com.barthezzko.playergame.model.Msg;
 import com.barthezzko.playergame.sockets.ServerSocketAPI;
 import com.barthezzko.playergame.sockets.SocketUtils;
 import com.barthezzko.playergame.sockets.SocketUtils.SocketAPI;
 
-public class ServerSocketBusImpl implements Bus {
+public class ServerSocketBusImpl extends MessageStorage implements Bus {
 
 	private Logger logger = Logger.getLogger(ServerSocketBusImpl.class);
 	private final SocketAPI socketAPI;
@@ -22,6 +23,7 @@ public class ServerSocketBusImpl implements Bus {
 		socketAPI = new ServerSocketAPI(9999, (line) -> {
 			Msg msg = SocketUtils.unmarshall(line);
 			Listener listener = listenerMap.get(msg.getReceiver());
+			storeMessage(msg);
 			if (listener != null) {
 				if (!listener.active()) {
 					logger.warn("Listener [" + msg.getReceiver() + "] is not more accepting messages. Exiting...");

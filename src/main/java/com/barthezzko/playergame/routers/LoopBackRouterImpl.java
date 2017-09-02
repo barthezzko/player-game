@@ -5,11 +5,12 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.barthezzko.playergame.interfaces.Bus;
-import com.barthezzko.playergame.interfaces.Listener;
-import com.barthezzko.playergame.interfaces.Msg;
+import com.barthezzko.playergame.model.Bus;
+import com.barthezzko.playergame.model.Listener;
+import com.barthezzko.playergame.model.MessageStorage;
+import com.barthezzko.playergame.model.Msg;
 
-public class LoopBackRouterImpl implements Bus {
+public class LoopBackRouterImpl extends MessageStorage implements Bus {
 
 	private Logger logger = Logger.getLogger(this.getClass());
 	private Map<String, Listener> listenerMap = new HashMap<>();
@@ -22,6 +23,7 @@ public class LoopBackRouterImpl implements Bus {
 	@Override
 	public void publish(Msg msg) {
 		Listener listener = listenerMap.get(msg.getReceiver());
+		storeMessage(msg);
 		if (listener != null) {
 			listener.onMessage(msg);
 		} else {

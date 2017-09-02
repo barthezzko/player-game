@@ -1,6 +1,6 @@
 package com.barthezzko.playergame.designed;
 
-import com.barthezzko.playergame.interfaces.Msg;
+import com.barthezzko.playergame.model.Msg;
 
 public class MsgImpl implements Msg {
 
