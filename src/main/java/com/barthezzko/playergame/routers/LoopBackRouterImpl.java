@@ -10,7 +10,7 @@ import com.barthezzko.playergame.interfaces.Listener;
 import com.barthezzko.playergame.interfaces.Msg;
 
 public class LoopBackRouterImpl implements Bus {
-	
+
 	private Logger logger = Logger.getLogger(this.getClass());
 	private Map<String, Listener> listenerMap = new HashMap<>();
 
@@ -27,10 +27,5 @@ public class LoopBackRouterImpl implements Bus {
 		} else {
 			logger.info("Message dropped " + msg);
 		}
-	}
-
-	@Override
-	public void shutdown() {
-		
 	}
 }

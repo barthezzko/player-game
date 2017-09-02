@@ -17,7 +17,6 @@ public class SocketGameServer {
 		logger.info("irina registered, sending message...");
 
 		logger.info("blocking listen started");
-		bus.listen();
 		bus.shutdown();
 	}
 }

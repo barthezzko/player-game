@@ -16,7 +16,6 @@ public class SocketGameClient {
 		bus.register("mike", new NamedPlayer(bus, "Mikhail Baytsurov"));
 		bus.publish(new MsgImpl("initial", "irina", "mike"));
 
-		bus.listen();
 		logger.info("mike registered, sending message...");
 		bus.shutdown();
 	}

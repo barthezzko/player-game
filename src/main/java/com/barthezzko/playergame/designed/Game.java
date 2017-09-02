@@ -6,7 +6,7 @@ import com.barthezzko.playergame.interfaces.Bus;
 
 public class Game {
 
-	private static Logger logger = Logger.getLogger(Game.class);
+	private Logger logger = Logger.getLogger(Game.class);
 	private Bus bus;
 
 	public Game(Bus bus) {
