@@ -46,7 +46,7 @@ public class ClientSocketAPI implements SocketAPI {
 			});
 			executorService.shutdown();
 		} catch (IOException e) {
-			logger.warn(e);
+			logger.warn(e, e);
 		} catch (Exception e) {
 			logger.error(e, e);
 		}

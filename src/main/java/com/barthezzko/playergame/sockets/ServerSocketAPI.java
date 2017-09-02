@@ -51,5 +51,6 @@ public class ServerSocketAPI implements SocketAPI {
 	@Override
 	public void send(String line) {
 		writer.println(line);
+		writer.flush();
 	}
 }

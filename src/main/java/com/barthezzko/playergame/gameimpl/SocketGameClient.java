@@ -14,12 +14,12 @@ public class SocketGameClient {
 	private static Logger logger = Logger.getLogger(SocketGameClient.class);
 
 	public static void main(String[] args) {
+		logger.info("STARTING CLIENT");
 		ClientSocketBusImpl bus = new ClientSocketBusImpl();
-		
+		logger.info("client bus created. registering player");
 		bus.register(MIKE, new NamedPlayer(bus, "Mikhail Baytsurov"));
-		bus.publish(new MessageImpl.Builder().payload("initial").sender(IRINA).receiver(MIKE).build());
-
 		logger.info("mike registered, sending message...");
+		bus.publish(new MessageImpl.Builder().payload("initial").sender(MIKE).receiver(IRINA).build());
 		bus.shutdown();
 	}
 

@@ -14,7 +14,7 @@ public class SocketGameServer {
 	public static void main(String[] args) {
 		ServerSocketBusImpl bus = new ServerSocketBusImpl();
 		bus.register(IRINA, new NamedPlayer(bus, "Irina Plaksina"));
-		logger.info("irina registered, sending message...");
+		logger.info("irina registered");
 		bus.shutdown();
 	}
 }

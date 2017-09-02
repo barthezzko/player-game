@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.concurrent.Executors;
 
 import org.apache.log4j.Logger;
 import org.junit.Before;
@@ -19,12 +18,12 @@ import com.barthezzko.playergame.impl.GameRun;
 import com.barthezzko.playergame.model.Bus;
 
 @RunWith(Parameterized.class)
-public class SingleThreadedGameTests {
+public class SameVMGameTests {
 
 	private Bus bus;
 	private Logger logger = Logger.getLogger(this.getClass());
 	
-	public SingleThreadedGameTests(String name, Bus bus) {
+	public SameVMGameTests(String name, Bus bus) {
 		this.bus = bus;
 	}
 
