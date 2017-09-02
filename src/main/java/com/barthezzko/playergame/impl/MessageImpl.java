@@ -1,40 +1,65 @@
 package com.barthezzko.playergame.impl;
 
 import com.barthezzko.playergame.model.Message;
-import com.barthezzko.playergame.model.Player;
 
-/**
- * @author barthezzko Immutable thread-safe implementation of Message
- *
- */
 public final class MessageImpl implements Message {
 
-	private final String payload;
-	private final Player sender;
-	private final Player recepient;
+	private StringBuilder payload;
+	private String sender;
+	private String receiver;
 
-	public MessageImpl(String payload, Player sender, Player recepient) {
-		this.payload = payload;
+	private MessageImpl(String message, String receiver, String sender) {
+		this.payload = new StringBuilder(message);
 		this.sender = sender;
-		this.recepient = recepient;
+		this.receiver = receiver;
 	}
 
+	public Message reverseAndAppend(String augment) {
+		return new MessageImpl(payload.toString() + augment, sender, receiver);
+	}
+
+	@Override
 	public String getPayload() {
-		return payload;
+		return payload.toString();
+	}
+
+	@Override
+	public String getSender() {
+		return sender;
+	}
+
+	@Override
+	public String getReceiver() {
+		return receiver;
 	}
 
 	@Override
 	public String toString() {
-		return "MessageImpl [payload=" + payload + "]";
+		return "MsgImpl [payload=" + payload.toString() + ", sender=" + sender + ", receiver=" + receiver + "]";
 	}
 
-	@Override
-	public Player getRecepient() {
-		return recepient;
-	}
+	public static class Builder {
+		private String payload;
+		private String sender;
+		private String receiver;
 
-	@Override
-	public Player getSender() {
-		return sender;
+		public Builder payload(String payload) {
+			this.payload = payload;
+			return this;
+		}
+
+		public Builder sender(String sender) {
+			this.sender = sender;
+			return this;
+		}
+
+		public Builder receiver(String receiver) {
+			this.receiver = receiver;
+			return this;
+		}
+
+		public Message build() {
+			return new MessageImpl(payload, receiver, sender);
+		}
 	}
 }
