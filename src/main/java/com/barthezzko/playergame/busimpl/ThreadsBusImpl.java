@@ -8,6 +8,16 @@ import java.util.concurrent.Executors;
 import com.barthezzko.playergame.model.Listener;
 import com.barthezzko.playergame.model.Message;
 
+/**
+ * 
+ * Multi-threaded implementation of the Bus interface.
+ * Could be helpful long-lasting Player's moves
+ * 
+ * @see {@link SocketBusImpl}
+ * 
+ * @author barthezzko
+ *
+ */
 public class ThreadsBusImpl extends BusBase {
 
 	private final ExecutorService executorService = Executors.newFixedThreadPool(10);
@@ -17,8 +27,8 @@ public class ThreadsBusImpl extends BusBase {
 	@Override
 	public void publish(Message msg) {
 		addMessage(msg);
-		if (logger.isDebugEnabled()){
-			logger.debug("PUB:" + msg);	
+		if (logger.isDebugEnabled()) {
+			logger.debug("PUB:" + msg);
 		}
 		currentMsg = msg;
 		Object lockObject = lockMap.get(msg.getReceiver());
@@ -34,7 +44,7 @@ public class ThreadsBusImpl extends BusBase {
 		lockMap.put(msgKey, lockObject);
 		executorService.submit(() -> {
 			Thread.currentThread().setName(msgKey + "-thread");
-			while (listener.active()) {
+			while (listener.isActive()) {
 				try {
 					synchronized (lockObject) {
 						lockObject.wait();

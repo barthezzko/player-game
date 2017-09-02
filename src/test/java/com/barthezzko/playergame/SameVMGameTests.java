@@ -47,7 +47,7 @@ public class SameVMGameTests extends TestBase {
 		}
 		assertEquals("initial00112233445566778899", bus.lastMessageFor("mike"));
 		Listener listener = bus.getListener("mike");
-		assertEquals(false, listener.active());
+		assertEquals(false, listener.isActive());
 		assertTrue(listener instanceof NamedPlayer);
 		assertEquals(10, ((NamedPlayer) listener).messageCount());
 	}

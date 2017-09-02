@@ -12,6 +12,12 @@ import com.barthezzko.playergame.model.Bus;
 import com.barthezzko.playergame.model.Listener;
 import com.barthezzko.playergame.model.Message;
 
+/**
+ * Base Abstract class for the Bus instances.
+ * Incorporates the logic for listener and messages handling
+ * @author barthezzko
+ *
+ */
 public abstract class BusBase implements Bus {
 	
 	protected Logger logger = Logger.getLogger(this.getClass());

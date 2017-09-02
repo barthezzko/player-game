@@ -18,6 +18,7 @@ public class ClientSocketAPI implements SocketAPI {
 
 	private static final String LOCALHOST = "localhost";
 	private static final int TIMEOUT_MS = 10_000;
+	private static final String THREAD_NAME = "client-socket-listener";
 	private Socket socket;
 	private PrintStream outStream;
 	private BufferedReader reader;
@@ -33,14 +34,17 @@ public class ClientSocketAPI implements SocketAPI {
 			outStream = new PrintStream(socket.getOutputStream(), true);
 			ExecutorService executorService = Executors.newSingleThreadExecutor();
 			executorService.submit(() -> {
-				Thread.currentThread().setName("client-socket-listener");
+				Thread.currentThread().setName(THREAD_NAME);
 				String line;
 				try {
 					while ((line = reader.readLine()) != null) {
 						if (logger.isDebugEnabled()){
 							logger.debug("CLIENT:IN:" + line);
 						}
-						lineConsumer.apply(line);
+						if (lineConsumer.apply(line)){
+							return;
+						}
+						
 					}
 				} catch (IOException e) {
 					logger.warn(e.getMessage());

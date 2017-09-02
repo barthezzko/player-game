@@ -9,6 +9,13 @@ import com.barthezzko.playergame.sockets.ServerSocketAPI;
 import com.barthezzko.playergame.sockets.SocketAPI;
 import com.barthezzko.playergame.sockets.SocketUtils;
 
+/**
+ * Socket-based inter-process communication Bus implementation. Supports SERVER
+ * and CLIENT modes @see {@link Mode}
+ * 
+ * @author barthezzko
+ *
+ */
 public class SocketBusImpl extends BusBase {
 
 	public enum Mode {
@@ -16,21 +23,28 @@ public class SocketBusImpl extends BusBase {
 	}
 
 	private SocketAPI socketAPI;
-	
+
+	/**
+	 * Creates an instance of Server or Client SocketAPI interface on the
+	 * specified port
+	 * 
+	 * @param port
+	 * @param type
+	 */
 	public SocketBusImpl(int port, Mode type) {
-		if (type == Mode.SERVER){
+		if (type == Mode.SERVER) {
 			socketAPI = new ServerSocketAPI(port, lineProcessor);
 		} else {
 			socketAPI = new ClientSocketAPI(port, lineProcessor);
 		}
 	}
-	
+
 	private Function<String, Boolean> lineProcessor = (line) -> {
 		Message msg = SocketUtils.unmarshall(line);
 		Listener listener = getListener(msg.getReceiver());
 		addMessage(msg);
 		if (listener != null) {
-			if (!listener.active()) {
+			if (!listener.isActive()) {
 				logger.warn("Listener [" + msg.getReceiver() + "] is not more accepting messages. Exiting...");
 				return true; // this stands for "No more messages"
 			}

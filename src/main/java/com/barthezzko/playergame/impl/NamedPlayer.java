@@ -23,7 +23,7 @@ public class NamedPlayer implements Listener {
 	@Override
 	public void onMessage(Message msg) {
 		logger.info("[" + name +"] : " + msg);
-		if (active()){
+		if (isActive()){
 			Message reversed = msg.reverseAndAppend(String.valueOf(messageCounter));
 			messageCounter++;
 			publisher.publish(reversed);
@@ -38,7 +38,7 @@ public class NamedPlayer implements Listener {
 	}
 
 	@Override
-	public boolean active() {
+	public boolean isActive() {
 		return messageCounter < THRESHOLD;
 	}
 

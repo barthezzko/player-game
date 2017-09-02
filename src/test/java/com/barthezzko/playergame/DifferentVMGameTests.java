@@ -55,7 +55,7 @@ public class DifferentVMGameTests extends TestBase {
 		bus.shutdown();
 		sleep(2_000); // waiting till the processes are communicating
 		assertEquals("initial0011223344556677889", bus.lastMessageFor(MIKE));
-		assertEquals(false, player.active());
+		assertEquals(false, player.isActive());
 		assertEquals(10, player.messageCount());
 	}
 
