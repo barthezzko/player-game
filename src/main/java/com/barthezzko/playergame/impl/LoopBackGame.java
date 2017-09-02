@@ -1,12 +1,12 @@
 package com.barthezzko.playergame.impl;
 
-import com.barthezzko.playergame.designed.Game;
-import com.barthezzko.playergame.routers.LoopBackRouterImpl;
+import com.barthezzko.playergame.designed.GameRun;
+import com.barthezzko.playergame.routers.LoopBackBusImpl;
 
 public class LoopBackGame {
 
 	public static void main(String[] args) {
-		new Game(new LoopBackRouterImpl());
+		new GameRun(new LoopBackBusImpl()).startStandardScenario();
 	}
 	
 }

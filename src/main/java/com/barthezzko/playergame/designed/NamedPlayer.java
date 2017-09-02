@@ -3,7 +3,7 @@ package com.barthezzko.playergame.designed;
 import org.apache.log4j.Logger;
 
 import com.barthezzko.playergame.model.Listener;
-import com.barthezzko.playergame.model.Msg;
+import com.barthezzko.playergame.model.Message;
 import com.barthezzko.playergame.model.Publisher;
 
 public class NamedPlayer implements Listener {
@@ -21,12 +21,12 @@ public class NamedPlayer implements Listener {
 	}
 
 	@Override
-	public void onMessage(Msg msg) {
+	public void onMessage(Message msg) {
 		logger.info("[" + name +"] : " + msg);
 		if (active()){
-			msg.reverseAndAppend(String.valueOf(messageCounter));
+			Message reversed = msg.reverseAndAppend(String.valueOf(messageCounter));
 			messageCounter++;
-			publisher.publish(msg);
+			publisher.publish(reversed);
 		} else {
 			logger.info("[" + name +"] stopped sending back messages");
 		}

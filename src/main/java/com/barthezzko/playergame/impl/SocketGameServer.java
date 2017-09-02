@@ -1,5 +1,7 @@
 package com.barthezzko.playergame.impl;
 
+import static com.barthezzko.playergame.designed.GameRun.IRINA;
+
 import org.apache.log4j.Logger;
 
 import com.barthezzko.playergame.designed.NamedPlayer;
@@ -11,12 +13,8 @@ public class SocketGameServer {
 
 	public static void main(String[] args) {
 		ServerSocketBusImpl bus = new ServerSocketBusImpl();
-
-		bus.register("irina", new NamedPlayer(bus, "Irina Plaksina"));
-
+		bus.register(IRINA, new NamedPlayer(bus, "Irina Plaksina"));
 		logger.info("irina registered, sending message...");
-
-		logger.info("blocking listen started");
 		bus.shutdown();
 	}
 }

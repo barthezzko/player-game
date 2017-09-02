@@ -14,8 +14,6 @@ import java.util.function.Consumer;
 
 import org.apache.log4j.Logger;
 
-import com.barthezzko.playergame.sockets.SocketUtils.SocketAPI;
-
 public class ClientSocketAPI implements SocketAPI {
 
 	private static final String LOCALHOST = "localhost";

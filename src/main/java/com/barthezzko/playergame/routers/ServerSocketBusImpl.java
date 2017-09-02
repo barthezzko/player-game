@@ -7,11 +7,11 @@ import org.apache.log4j.Logger;
 
 import com.barthezzko.playergame.model.Bus;
 import com.barthezzko.playergame.model.Listener;
+import com.barthezzko.playergame.model.Message;
 import com.barthezzko.playergame.model.MessageStorage;
-import com.barthezzko.playergame.model.Msg;
 import com.barthezzko.playergame.sockets.ServerSocketAPI;
+import com.barthezzko.playergame.sockets.SocketAPI;
 import com.barthezzko.playergame.sockets.SocketUtils;
-import com.barthezzko.playergame.sockets.SocketUtils.SocketAPI;
 
 public class ServerSocketBusImpl extends MessageStorage implements Bus {
 
@@ -21,7 +21,7 @@ public class ServerSocketBusImpl extends MessageStorage implements Bus {
 
 	public ServerSocketBusImpl() {
 		socketAPI = new ServerSocketAPI(9999, (line) -> {
-			Msg msg = SocketUtils.unmarshall(line);
+			Message msg = SocketUtils.unmarshall(line);
 			Listener listener = listenerMap.get(msg.getReceiver());
 			storeMessage(msg);
 			if (listener != null) {
@@ -44,7 +44,7 @@ public class ServerSocketBusImpl extends MessageStorage implements Bus {
 	}
 
 	@Override
-	public void publish(Msg msg) { // publish to sockets
+	public void publish(Message msg) { // publish to sockets
 		Listener listener = listenerMap.get(msg.getReceiver());
 		if (listener != null) {
 			logger.debug("Send to same JVM:" + msg);

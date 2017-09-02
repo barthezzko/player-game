@@ -9,7 +9,7 @@ public class MessageStorage {
 
 	protected Map<String, List<String>> state = new ConcurrentHashMap<>();
 
-	protected void storeMessage(Msg msg){
+	protected void storeMessage(Message msg){
 		state.putIfAbsent(msg.getReceiver(), new ArrayList<>());
 		state.get(msg.getReceiver()).add(msg.getPayload());
 	}

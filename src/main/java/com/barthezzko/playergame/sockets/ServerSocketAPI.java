@@ -12,8 +12,6 @@ import java.util.function.Function;
 
 import org.apache.log4j.Logger;
 
-import com.barthezzko.playergame.sockets.SocketUtils.SocketAPI;
-
 public class ServerSocketAPI implements SocketAPI {
 
 	private PrintWriter writer;

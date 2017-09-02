@@ -1,12 +1,12 @@
 package com.barthezzko.playergame.model;
 
-public interface Msg {
+public interface Message {
 
 	String getPayload();
-	
+
 	String getSender();
-	
+
 	String getReceiver();
-	
-	void reverseAndAppend(String augment);
+
+	Message reverseAndAppend(String augment);
 }
