@@ -1,31 +1,41 @@
 package com.barthezzko.playergame;
 
+import static com.barthezzko.playergame.impl.GameRun.IRINA;
+import static com.barthezzko.playergame.impl.GameRun.MIKE;
+import static org.junit.Assert.*;
+
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.barthezzko.playergame.busimpl.ClientSocketBusImpl;
 import com.barthezzko.playergame.gameimpl.SocketGameClient;
 import com.barthezzko.playergame.gameimpl.SocketGameServer;
+import com.barthezzko.playergame.impl.MessageImpl;
+import com.barthezzko.playergame.impl.NamedPlayer;
 
-public class DifferentVMGameTests {
+public class DifferentVMGameTests extends TestBase {
 
-	private Logger logger = Logger.getLogger(DifferentVMGameTests.class);
 	private Process process;
+	private ClientSocketBusImpl bus;
 
 	@Before
 	public void before() throws InterruptedException {
 		runServerProcess();
-		Thread.sleep(2000);
+		sleep(2000); // waiting till the server process starts, can't use Latch
+						// here - that's another process
+		bus = new ClientSocketBusImpl();
+		bus.register(MIKE, new NamedPlayer(bus, "Mikhail Baytsurov"));
+		bus.publish(new MessageImpl.Builder().payload("initial").sender(MIKE).receiver(IRINA).build());
+		bus.shutdown();
 	}
 
 	@After
@@ -36,11 +46,11 @@ public class DifferentVMGameTests {
 	}
 
 	@Test
-	public void test() throws InterruptedException {
+	public void testClientReceived() throws InterruptedException {
 		logger.info("creating client");
 		SocketGameClient.main(null);
-		Thread.sleep(2000);
-		
+		sleep(2000); // waiting till the processes are communicating
+		assertEquals("initial0011223344556677889", bus.lastMessageFor(MIKE));
 	}
 
 	private void runServerProcess() {

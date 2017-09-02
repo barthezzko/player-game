@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,11 +17,10 @@ import com.barthezzko.playergame.impl.GameRun;
 import com.barthezzko.playergame.model.Bus;
 
 @RunWith(Parameterized.class)
-public class SameVMGameTests {
+public class SameVMGameTests extends TestBase {
 
 	private Bus bus;
-	private Logger logger = Logger.getLogger(this.getClass());
-	
+
 	public SameVMGameTests(String name, Bus bus) {
 		this.bus = bus;
 	}
@@ -39,8 +37,8 @@ public class SameVMGameTests {
 	}
 
 	@Test
-	public void testSimple() {
-		if (bus instanceof ThreadsBusImpl){
+	public void testStandardScenario() {
+		if (bus instanceof ThreadsBusImpl) {
 			logger.info("Waiting for run to finish threads interaction...");
 			try {
 				Thread.sleep(1000);
