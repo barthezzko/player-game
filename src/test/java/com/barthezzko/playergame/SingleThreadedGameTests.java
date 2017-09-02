@@ -13,10 +13,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.barthezzko.playergame.designed.GameRun;
+import com.barthezzko.playergame.busimpl.LoopBackBusImpl;
+import com.barthezzko.playergame.busimpl.ThreadsBusImpl;
+import com.barthezzko.playergame.impl.GameRun;
 import com.barthezzko.playergame.model.Bus;
-import com.barthezzko.playergame.routers.LoopBackBusImpl;
-import com.barthezzko.playergame.routers.ThreadsBusImpl;
 
 @RunWith(Parameterized.class)
 public class SingleThreadedGameTests {

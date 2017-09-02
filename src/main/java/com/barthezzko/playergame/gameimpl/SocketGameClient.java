@@ -1,13 +1,13 @@
-package com.barthezzko.playergame.impl;
+package com.barthezzko.playergame.gameimpl;
 
-import static com.barthezzko.playergame.designed.GameRun.IRINA;
-import static com.barthezzko.playergame.designed.GameRun.MIKE;
+import static com.barthezzko.playergame.impl.GameRun.IRINA;
+import static com.barthezzko.playergame.impl.GameRun.MIKE;
 
 import org.apache.log4j.Logger;
 
-import com.barthezzko.playergame.designed.MessageImpl;
-import com.barthezzko.playergame.designed.NamedPlayer;
-import com.barthezzko.playergame.routers.ClientSocketBusImpl;
+import com.barthezzko.playergame.busimpl.ClientSocketBusImpl;
+import com.barthezzko.playergame.impl.MessageImpl;
+import com.barthezzko.playergame.impl.NamedPlayer;
 
 public class SocketGameClient {
 

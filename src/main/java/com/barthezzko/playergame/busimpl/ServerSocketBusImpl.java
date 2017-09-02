@@ -1,4 +1,4 @@
-package com.barthezzko.playergame.routers;
+package com.barthezzko.playergame.busimpl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,27 +9,32 @@ import com.barthezzko.playergame.model.Bus;
 import com.barthezzko.playergame.model.Listener;
 import com.barthezzko.playergame.model.Message;
 import com.barthezzko.playergame.model.MessageStorage;
-import com.barthezzko.playergame.sockets.ClientSocketAPI;
+import com.barthezzko.playergame.sockets.ServerSocketAPI;
 import com.barthezzko.playergame.sockets.SocketAPI;
 import com.barthezzko.playergame.sockets.SocketUtils;
 
-public class ClientSocketBusImpl extends MessageStorage implements Bus {
+public class ServerSocketBusImpl extends MessageStorage implements Bus {
 
-	private Logger logger = Logger.getLogger(this.getClass());
+	private Logger logger = Logger.getLogger(ServerSocketBusImpl.class);
+	private final SocketAPI socketAPI;
 	private Map<String, Listener> listenerMap = new HashMap<>();
-	private SocketAPI socketAPI;
 
-	public ClientSocketBusImpl() {
-		socketAPI = new ClientSocketAPI(9999, (line) -> {
+	public ServerSocketBusImpl() {
+		socketAPI = new ServerSocketAPI(9999, (line) -> {
 			Message msg = SocketUtils.unmarshall(line);
-			storeMessage(msg);
 			Listener listener = listenerMap.get(msg.getReceiver());
+			storeMessage(msg);
 			if (listener != null) {
-				logger.debug("Found listener for key:" + msg);
+				if (!listener.active()) {
+					logger.warn("Listener [" + msg.getReceiver() + "] is not more accepting messages. Exiting...");
+					return true;
+				}
+				logger.debug("Received from another JVM:" + msg);
 				listener.onMessage(msg);
 			} else {
-				logger.debug("No listener for key:" + msg.getReceiver() + ", dropping the message");
+				logger.debug("No listener for key :" + msg.getReceiver());
 			}
+			return false; // should continue
 		});
 	}
 
@@ -46,8 +51,8 @@ public class ClientSocketBusImpl extends MessageStorage implements Bus {
 			listener.onMessage(msg);
 		} else {
 			logger.debug("Send to another JVM: " + msg);
-			socketAPI.send(SocketUtils.marshall(msg));
+			String msgString = SocketUtils.marshall(msg);
+			socketAPI.send(msgString);
 		}
 	}
-
 }

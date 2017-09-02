@@ -1,4 +1,4 @@
-package com.barthezzko.playergame.routers;
+package com.barthezzko.playergame.busimpl;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

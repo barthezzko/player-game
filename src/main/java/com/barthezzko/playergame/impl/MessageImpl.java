@@ -1,4 +1,4 @@
-package com.barthezzko.playergame.designed;
+package com.barthezzko.playergame.impl;
 
 import com.barthezzko.playergame.model.Message;
 

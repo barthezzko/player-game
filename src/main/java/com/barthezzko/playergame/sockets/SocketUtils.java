@@ -2,7 +2,7 @@ package com.barthezzko.playergame.sockets;
 
 import org.apache.log4j.Logger;
 
-import com.barthezzko.playergame.designed.MessageImpl;
+import com.barthezzko.playergame.impl.MessageImpl;
 import com.barthezzko.playergame.model.Message;
 
 public class SocketUtils {
