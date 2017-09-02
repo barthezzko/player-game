@@ -21,7 +21,7 @@ public class SocketGameClient {
 		}
 		int port = Integer.valueOf(args[0]);
 		logger.info("Starting client application on port [" + port + "]");
-		Bus bus = new SocketBusImpl(port, SocketBusImpl.Mode.SERVER);
+		Bus bus = new SocketBusImpl(port, SocketBusImpl.Mode.CLIENT);
 
 		logger.info("Client bus created. Registering player...");
 		bus.register(MIKE, new NamedPlayer(bus, "Mikhail Baytsurov"));

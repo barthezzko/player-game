@@ -43,10 +43,9 @@ public class SameVMGameTest extends TestBase {
 	@Test
 	public void testStandardScenario() {
 		if (bus instanceof ThreadsBusImpl) {
-			Thread.yield();
 			logger.info("Waiting for run to finish threads interaction...");
 			while(((ThreadsBusImpl)bus).isWorking()){
-				logger.info("sleeping...");
+				logger.info("sleeping 10ms...");
 				sleep(10);
 			}
 		}
