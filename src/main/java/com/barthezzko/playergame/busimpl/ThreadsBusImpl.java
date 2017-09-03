@@ -51,6 +51,7 @@ public class ThreadsBusImpl extends BusBase {
 				try {
 					synchronized (lockObject) {
 						latch.countDown();
+						logger.info("acquire");
 						lockObject.wait();
 						listener.onMessage(currentMsg.get());
 					}

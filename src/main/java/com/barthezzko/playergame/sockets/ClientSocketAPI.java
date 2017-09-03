@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 
 public class ClientSocketAPI implements SocketAPI {
 
-	private static final String LOCALHOST = "localhost";
+	private static final String LOCALHOST = "127.0.0.1";
 	private static final int TIMEOUT_MS = 10_000;
 	private static final String THREAD_NAME = "client-socket-listener";
 	private Socket socket;
