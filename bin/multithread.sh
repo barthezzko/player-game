@@ -1,1 +1,1 @@
-java -classpath "../dist/player-game-1.0-SNAPSHOT-jar-with-dependencies.jar" com.barthezzko.playergame.runner.Runner multithreaded
+java -classpath "../target/player-game-1.0-SNAPSHOT-jar-with-dependencies.jar" com.barthezzko.playergame.runner.Runner multithreaded
